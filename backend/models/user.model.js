@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
 
 const userSchema = Schema(
   {
@@ -10,7 +10,7 @@ const userSchema = Schema(
     email: {
       type: String,
       unique: true,
-      required:true,
+      required: true,
     },
     username: {
       type: String,
@@ -33,16 +33,16 @@ const userSchema = Schema(
     },
   },
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 
-userSchema.pre("save", async function(next){
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-    this.password =  await bcrypt.hash(this.password, 10); // this is pointing to schema model
+  this.password = await bcrypt.hash(this.password, 10); // this is pointing to schema model
 });
-userSchema.methods.isPasswordCorrect = async function (password){
-    return await bcrypt.compare(this.password, password)
-}
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password,this.password);
+};
 
 export const User = mongoose.model("User", userSchema);

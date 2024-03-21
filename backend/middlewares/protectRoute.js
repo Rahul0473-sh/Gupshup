@@ -1,26 +1,27 @@
-import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
-
+import { ApiError } from "../utils/ApiError.js";
+import jwt from "jsonwebtoken";
 export const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies?.token;
     if (!token) {
-      res.status(403).json({ message: "token is not valid" });
+      res.status(400).json(new ApiError(400, "Token inn't correct"));
     }
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     if (!decodedToken) {
-      res.status(401).json({ message: "decoded token is not valid" });
+      res.status(400).json(new ApiError(400, "Unauthorize request"));
     }
-    
-    const user = await User.findById(decodedToken._id);
+    console.log(decodedToken._id);
+    const user = await User.findById(decodedToken._id).select(
+      "-password -gender -profilePic"
+    );
 
-    if (!user) {
-      res.status(403).json({ message: "Unauthorize request" });
-    }
+    if (!user) res.status(400).json(new ApiError(400, "User not found"));
+    
     req.user = user;
+
     next();
   } catch (error) {
-    console.log("Servor Error at protect Route", error.message);
-    res.status(500).json({ error: "Internal server Error" });
+    res.status(400).json(new ApiError(400, "this is not the error "));
   }
 };

@@ -8,13 +8,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 import authRoutes from "./Routes/authRoutes.js";
+import messageRoutes from "./Routes/messageRoute.js";
 import connectDb from "./Db/connectdb.js";
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 
-app.get('/', (req,res) => {
-    console.log("hey")
-    res.status(200).json({hey:"you got this"});
-})
+app.get("/", (req, res) => {
+  console.log("hey");
+  res.status(200).json({ hey: "you got this" });
+});
 
 connectDb().then(() => {
   try {

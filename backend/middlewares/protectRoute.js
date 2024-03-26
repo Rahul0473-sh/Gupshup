@@ -11,7 +11,7 @@ export const protectRoute = async (req, res, next) => {
     if (!decodedToken) {
       res.status(400).json(new ApiError(400, "Unauthorize request"));
     }
-    console.log(decodedToken._id);
+    // console.log(decodedToken._id);
     const user = await User.findById(decodedToken._id).select(
       "-password -gender -profilePic"
     );

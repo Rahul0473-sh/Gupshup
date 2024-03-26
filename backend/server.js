@@ -3,15 +3,18 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
-const app = express();
+const app= express();
 app.use(express.json());
 app.use(cookieParser());
 
 import authRoutes from "./Routes/authRoutes.js";
 import messageRoutes from "./Routes/messageRoute.js";
+import userRoutes from "./Routes/user.routes.js"
 import connectDb from "./Db/connectdb.js";
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/user", userRoutes);
 
 app.get("/", (req, res) => {
   console.log("hey");

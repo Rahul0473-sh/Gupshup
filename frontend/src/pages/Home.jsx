@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Sidebar from "../components/Sidebar/Sidebar";
+import Conversation from "../components/Sidebar/Conversation";
+import MessageContainer from "../components/messages/MessageContainer";
 
-const home = () => {
+const Home = () => {
   return (
-    <div>home</div>
-  )
-}
+    <div className="flex sm:h-[450px] md:h-[550px] rounded-lg overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
+      <Sidebar />
+      <MessageContainer />
+    </div>
+  );
+};
 
-export default home
+export default Home;
